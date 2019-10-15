@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import Layout from '../components/layout'
-import Features from '../components/features'
-import Banner from '../components/banner'
 
 function SignUp() {
   const [firstName, setFirstName] = useState('')
@@ -13,138 +11,131 @@ function SignUp() {
 
   return (
     <Layout title="Sign up" tab={3}>
-      <Banner />
-        <div className="content-section">
-          <div className="content-blox">
-            <h2 className="heading-2">Signup for our Seed-to-Sale Service</h2>
-            <div className="sub-text centered">It's just $50 per month</div>
-            <div className="form-box">
-              <div className="w-form">
-                <form id="email-form" name="email-form" data-name="Email Form">
-                  <div className="field-col w-row">
-                    <div className="column-2 w-col w-col-4 w-col-small-small-stack">
-                      <label for="name" className="field-label">
-                        First Name:
-                      </label>
-                    </div>
-                    <div className="w-col w-col-8 w-col-small-small-stack">
-                      <input 
-                        type="text" 
-                        className="text-field w-input" 
-                        maxlength="256" 
-                        name="first_name" 
-                        data-name="first_name" 
-                        id="first_name" 
-                        required 
-                      />
-                    </div>
-                  </div>
-                  <div className="field-col w-row">
-                    <div className="column-2 w-col w-col-4">
-                      <label for="name-2" className="field-label">
-                        Last Name:
-                      </label>
-                    </div>
-                    <div className="w-col w-col-8">
-                      <input 
-                        type="text" 
-                        className="text-field w-input" 
-                        maxlength="256" 
-                        name="last_name" 
-                        data-name="last_name" 
-                        id="last_name" required
-                      />
-                    </div>
-                  </div>
-                  <div className="field-col w-row">
-                    <div className="column-2 w-col w-col-4">
-                      <label for="name-3" className="field-label">
-                        Email Address:
-                      </label>
-                    </div>
-                    <div className="w-col w-col-8">
-                      <input 
-                        type="email" 
-                        className="text-field w-input" 
-                        maxlength="256" 
-                        name="email" 
-                        data-name="email" 
-                        id="email" 
-                        required 
-                      />
-                    </div>
-                  </div>
-                  <div className="field-col w-row">
-                    <div className="column-2 w-col w-col-4">
-                      <label for="name-3" className="field-label">
-                        Password:
-                      </label>
-                    </div>
-                    <div className="w-col w-col-8">
-                      <input 
-                        type="password" 
-                        className="text-field w-input" 
-                        maxlength="256" 
-                        name="password" 
-                        data-name="password" 
-                        id="password" 
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="field-col w-row">
-                    <div className="column-2 w-col w-col-4">
-                      <label for="name-3" className="field-label">
-                        Confirm Password:
-                      </label>
-                    </div>
-                    <div className="w-col w-col-8">
-                      <input 
-                        type="password" 
-                        className="text-field w-input" 
-                        maxlength="256" 
-                        name="confirm_password" 
-                        data-name="confirm_password" 
-                        id="confirm_password" required
-                      />
-                    </div>
-                  </div>
-                  <div className="field-col w-row">
-                    <div className="column-2 w-col w-col-4">
-                      <label for="name-3" className="field-label">
-                        OMMA&nbsp;ID:
-                      </label>
-                    </div>
-                    <div className="w-col w-col-8">
-                      <input 
-                        type="text" 
-                        className="text-field w-input" 
-                        maxlength="256" 
-                        name="omma_id" 
-                        data-name="omma_id" 
-                        id="omma_id" required
-                      />
-                    </div>
-                  </div>
-                  <input 
-                    type="submit" 
-                    value="Submit" 
-                    data-wait="Please wait..." 
-                    className="submit-button w-button"
-                  />
-                </form>
-                <div className="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
+        <h2 className="heading-2">Signup for our Seed-to-Sale Service</h2>
+        <div className="sub-text centered">It's just $50 per month</div>
+        <div className="form-box">
+          <div className="w-form">
+            <form id="email-form" name="email-form" data-name="Email Form">
+              <div className="field-col w-row">
+                <div className="column-2 w-col w-col-4 w-col-small-small-stack">
+                  <label for="name" className="field-label">
+                    First Name:
+                  </label>
                 </div>
-                <div className="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form.</div>
+                <div className="w-col w-col-8 w-col-small-small-stack">
+                  <input 
+                    type="text" 
+                    className="text-field w-input" 
+                    maxlength="256" 
+                    name="first_name" 
+                    data-name="first_name" 
+                    id="first_name" 
+                    required 
+                  />
                 </div>
               </div>
+              <div className="field-col w-row">
+                <div className="column-2 w-col w-col-4">
+                  <label for="name-2" className="field-label">
+                    Last Name:
+                  </label>
+                </div>
+                <div className="w-col w-col-8">
+                  <input 
+                    type="text" 
+                    className="text-field w-input" 
+                    maxlength="256" 
+                    name="last_name" 
+                    data-name="last_name" 
+                    id="last_name" required
+                  />
+                </div>
+              </div>
+              <div className="field-col w-row">
+                <div className="column-2 w-col w-col-4">
+                  <label for="name-3" className="field-label">
+                    Email Address:
+                  </label>
+                </div>
+                <div className="w-col w-col-8">
+                  <input 
+                    type="email" 
+                    className="text-field w-input" 
+                    maxlength="256" 
+                    name="email" 
+                    data-name="email" 
+                    id="email" 
+                    required 
+                  />
+                </div>
+              </div>
+              <div className="field-col w-row">
+                <div className="column-2 w-col w-col-4">
+                  <label for="name-3" className="field-label">
+                    Password:
+                  </label>
+                </div>
+                <div className="w-col w-col-8">
+                  <input 
+                    type="password" 
+                    className="text-field w-input" 
+                    maxlength="256" 
+                    name="password" 
+                    data-name="password" 
+                    id="password" 
+                    required
+                  />
+                </div>
+              </div>
+              <div className="field-col w-row">
+                <div className="column-2 w-col w-col-4">
+                  <label for="name-3" className="field-label">
+                    Confirm Password:
+                  </label>
+                </div>
+                <div className="w-col w-col-8">
+                  <input 
+                    type="password" 
+                    className="text-field w-input" 
+                    maxlength="256" 
+                    name="confirm_password" 
+                    data-name="confirm_password" 
+                    id="confirm_password" required
+                  />
+                </div>
+              </div>
+              <div className="field-col w-row">
+                <div className="column-2 w-col w-col-4">
+                  <label for="name-3" className="field-label">
+                    OMMA&nbsp;ID:
+                  </label>
+                </div>
+                <div className="w-col w-col-8">
+                  <input 
+                    type="text" 
+                    className="text-field w-input" 
+                    maxlength="256" 
+                    name="omma_id" 
+                    data-name="omma_id" 
+                    id="omma_id" required
+                  />
+                </div>
+              </div>
+              <input 
+                type="submit" 
+                value="Submit" 
+                data-wait="Please wait..." 
+                className="submit-button w-button"
+              />
+            </form>
+            <div className="w-form-done">
+              <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div className="w-form-fail">
+              <div>Oops! Something went wrong while submitting the form.</div>
             </div>
           </div>
         </div>
-        <Features />
-
         <style jsx>{`
         .content-section {
           font-size: 18px;

@@ -1,65 +1,81 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
+import { connect } from 'react-redux'
+import Router from 'next/router'
+import { useRouter } from 'next/router'
 import Layout from '../components/layout'
-import Features from '../components/features'
-import Banner from '../components/Banner'
+import httpClient  from '../config'
+import { authenticate } from '../redux/actions/authActions'
 
-function Login() {
+function Login(props) {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const signin = async () => {
+    event.preventDefault();
+    await httpClient.get(`/login/${email}/${password}`)
+      .then(res => {
+        localStorage.setItem('token', res.data.token)
+        props.dispatch(authenticate(res.data.token))
+        Router.push('/dashboard')
+      })
+      .catch(error => {
+        alert(error)
+      })
+  }
+
   return (
     <Layout title="Login" tab={4}>
-      <Banner />
-      <div className="content-section">
-        <div className="content-blox">
-          <h2 className="heading-2">Customer Login</h2>
-          <div className="form-box">
-            <div className="w-form">
-              <form id="email-form" name="email-form" data-name="Email Form" action="/login" method="post">
-                <div style={{display: 'flex'}} className="field-col w-row">
-                  <div className="column-2 w-col w-col-4">
-                    <label for="name-3" className="field-label">Email Address:</label>
-                  </div>
-                  <div className="w-col w-col-8">
-                    <input 
-                      type="email" 
-                      className="text-field w-input" 
-                      maxlength="256"
-                      name="username" 
-                      data-name="email" 
-                      id="email" 
-                      required />
-                  </div>
-                </div>
-                <div style={{display: 'flex'}} className="field-col w-row">
-                  <div className="column-2 w-col w-col-4">
-                    <label for="name-3" className="field-label">Password:</label>
-                  </div>
-                  <div className="w-col w-col-8">
-                    <input
-                      type="password"
-                      className="text-field w-input"
-                      maxlength="256"
-                      name="password"
-                      data-name="password"
-                      id="password" required />
-                  </div>
-                </div>
-                  <Link href="/dashboard" >
-                    <input 
-                      type="submit" 
-                      value="Login" 
-                      data-wait="Please wait..." 
-                      className="submit-button w-button" 
-                    />
-                  </Link>
-              </form>
+      <h2 className="heading-2">Customer Login</h2>
+      <div className="form-box">
+        <div className="w-form">
+          <form id="email-form" name="email-form" data-name="Email Form" action="/login" method="post">
+            <div style={{display: 'flex'}} className="field-col w-row">
+              <div className="column-2 w-col w-col-4">
+                <label className="field-label">Email Address:</label>
+              </div>
+              <div className="w-col w-col-8">
+                <input
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)} 
+                  className="text-field w-input" 
+                  maxLength="256"
+                  name="username"
+                  required 
+                />
+              </div>
             </div>
-          </div>
+            <div style={{display: 'flex'}} className="field-col w-row">
+              <div className="column-2 w-col w-col-4">
+                <label className="field-label">Password:</label>
+              </div>
+              <div className="w-col w-col-8">
+                <input
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  type="password"
+                  className="text-field w-input"
+                  maxLength="256"
+                  name="password"
+                  data-name="password"
+                  id="password" 
+                  required 
+                />
+              </div>
+            </div>
+              <input
+                onClick={(event) => {
+                    event.preventDefault()
+                    signin()
+                  }}
+                type="submit" 
+                value="Login" 
+                data-wait="Please wait..." 
+                className="submit-button w-button" 
+              />
+          </form>
         </div>
       </div>
-      <Features />
       <style jsx>{`
         .content-section {
           font-size: 18px;
@@ -190,4 +206,10 @@ function Login() {
   )
 }
 
-export default Login;
+const mapState = state => {
+  return {
+    auth: state.auth,
+  }
+}
+
+export default connect(mapState)(Login);

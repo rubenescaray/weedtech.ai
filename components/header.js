@@ -1,7 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux'
+import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
+import { authenticate, deauthenticate } from '../redux/actions/authActions'
 
-function Header({ tab }) {
+function Header(props) {
+  const { tab, isLoggedIn } = props
+  const router = useRouter();
+  let token = null;
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    props.dispatch(deauthenticate())
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('token') != null) {
+      token = localStorage.getItem('token');
+      props.dispatch(authenticate(token))
+    }
+  })
+
   return (
     <div className="menu">
       <div className="w-container">
@@ -49,7 +68,7 @@ function Header({ tab }) {
             </div>
           </Link>
         </nav>
-        <div className="w-div-clearfix">
+        {!isLoggedIn && <div className="w-div-clearfix">
           <Link href="/signup">
             <div className="nav-item linkbox">
               <a
@@ -61,7 +80,7 @@ function Header({ tab }) {
               </a>
             </div>
           </Link>
-          <Link href="/login">
+          <Link  href="/login">
             <div className="nav-item linkbox">
               <a
                 className="nav-link"
@@ -72,7 +91,23 @@ function Header({ tab }) {
               </a>
             </div>
           </Link>
-        </div>
+        </div>}
+        {isLoggedIn && <div className="w-div-clearfix">
+          <Link>
+            <div onClick={logout} className="nav-item linkbox">
+              <a className="nav-link">
+                Logout
+              </a>
+            </div>
+          </Link>
+          <Link href="/dashboard">
+            <div className="nav-item linkbox">
+              <a className="nav-link">
+                Dashboard
+              </a>
+            </div>
+          </Link>
+        </div>}
 
       </div>
       <style jsx global>{`
@@ -161,4 +196,10 @@ function Header({ tab }) {
   )
 }
 
-export default Header;
+const mapState = state => {
+  return {
+    isLoggedIn: state.auth.token != null,
+  }
+}
+
+export default connect(mapState)(Header);

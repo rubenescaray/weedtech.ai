@@ -1,11 +1,27 @@
 import Router from 'next/router';
+import httpClient from '../../config'
 import axios from 'axios';
 import { REGISTER, AUTHENTICATE, DEAUTHENTICATE } from '../types';
-import { API } from '../../config';
 import { setCookie, removeCookie } from '../../utils/cookie';
 
+export const authenticate = (token) => {
+  localStorage.setItem('token', token);
+  return {
+    type: AUTHENTICATE,
+    payload: token,
+  }
+}
+
+export const deauthenticate = () => {
+  Router.push('/')
+  
+  return {
+    type: DEAUTHENTICATE,
+  }
+}
+
 // register user
-const register = ({ firstname, lastname, mobile_no, email_id, password, confirm_password }, type) => {
+export const register = ({ firstname, lastname, mobile_no, email_id, password, confirm_password }, type) => {
   if (type !== 'register') {
     throw new Error('Wrong API call!');
   }

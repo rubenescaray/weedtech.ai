@@ -1,72 +1,64 @@
 import { useState } from 'react'
 import Layout from '../components/layout'
-import Features from '../components/features'
-import Banner from '../components/banner'
 
 function Pricing() {
   return (
     <Layout title="Plans" tab={2}>
-      <Banner />
-      <div className="content-section">
-        <div className="content-blox">
-          <h2 className="heading-2">Plan Pricing</h2>
-          <div className="subscriptions">
-            <div style={{marginRight:'50px'}} className="plan">
-              <div>
-                <h3 style={{textAlign: 'center', fontWeight: '400'}}>Basic Subscription</h3>
-                <h3 style={{textAlign: 'center'}}>$50 per month</h3>
-                <p className="plan-desc">
-                  Access to software and technical support. <br/>
-                  This includes (but is not limited to) the following improvements that are not yet operational:
-                </p>
-              </div>
-              <hr style={{marginTop:'58px'}} />
-              <div>
-                <p className="plan-desc">
-                  -Mobile and Desktop Apps <br />
-                  -Tracking Statistics <br />
-                  -OMMA ID Lookup Tool <br />
-                  -Easy Printing of Labels, Directly From Our Site <br />
-                  -Test Mode <br />
-                </p>
-                <a href="/signup" className="button w-button">
-                  SIGNUP
-                </a>
-              </div>
-            </div>
-            <div style={{marginRight:'50px'}} className="plan">
-            <div>
-                <h3 style={{textAlign: 'center', fontWeight: '400'}}>Yearly Subscription</h3>
-                <h3 style={{textAlign: 'center'}}>$540 per year</h3>
-                <p className="plan-desc">
-                Includes everything included in the Basic Subscription for a lower overall cost. <br />
-                Access to software and technical support. <br />
-                This includes (but is not limited to) the following improvements 
-                that are not yet operational: <br />
-                </p>
-              </div>
-              <hr />
-              <div>
-                <p className="plan-desc">
-                  -Mobile and Desktop Apps <br />
-                  -Tracking Statistics <br />
-                  -OMMA ID Lookup Tool <br />
-                  -Easy Printing of Labels, Directly From Our Site <br />
-                  -Test Mode <br />
-                </p>
-                <a href="/signup" className="button w-button">
-                  SIGNUP
-                </a>
-              </div>
-            </div>
-            <div className="plan">
-              <h3 style={{textAlign: 'center', fontWeight: '400'}}>Coming Soon!</h3>
-              <p  style={{textAlign:'center', marginTop: '60px'}} className="plan-desc">More plans to fit every business</p>
-            </div>
+      <h2 className="heading-2">Plan Pricing</h2>
+      <div className="subscriptions">
+        <div style={{marginRight:'50px'}} className="plan">
+          <div>
+            <h3 style={{textAlign: 'center', fontWeight: '400'}}>Basic Subscription</h3>
+            <h3 style={{textAlign: 'center'}}>$50 per month</h3>
+            <p className="plan-desc">
+              Access to software and technical support. <br/>
+              This includes (but is not limited to) the following improvements that are not yet operational:
+            </p>
+          </div>
+          <hr style={{marginTop:'58px'}} />
+          <div>
+            <p className="plan-desc">
+              -Mobile and Desktop Apps <br />
+              -Tracking Statistics <br />
+              -OMMA ID Lookup Tool <br />
+              -Easy Printing of Labels, Directly From Our Site <br />
+              -Test Mode <br />
+            </p>
+            <a href="/signup" className="button w-button">
+              SIGNUP
+            </a>
           </div>
         </div>
+        <div style={{marginRight:'50px'}} className="plan">
+        <div>
+            <h3 style={{textAlign: 'center', fontWeight: '400'}}>Yearly Subscription</h3>
+            <h3 style={{textAlign: 'center'}}>$540 per year</h3>
+            <p className="plan-desc">
+            Includes everything included in the Basic Subscription for a lower overall cost. <br />
+            Access to software and technical support. <br />
+            This includes (but is not limited to) the following improvements 
+            that are not yet operational: <br />
+            </p>
+          </div>
+          <hr />
+          <div>
+            <p className="plan-desc">
+              -Mobile and Desktop Apps <br />
+              -Tracking Statistics <br />
+              -OMMA ID Lookup Tool <br />
+              -Easy Printing of Labels, Directly From Our Site <br />
+              -Test Mode <br />
+            </p>
+            <a href="/signup" className="button w-button">
+              SIGNUP
+            </a>
+          </div>
+        </div>
+        <div className="plan">
+          <h3 style={{textAlign: 'center', fontWeight: '400'}}>Coming Soon!</h3>
+          <p  style={{textAlign:'center', marginTop: '60px'}} className="plan-desc">More plans to fit every business</p>
+        </div>
       </div>
-      <Features />
       <style jsx global>{`
         .content-section {
           font-size: 18px;

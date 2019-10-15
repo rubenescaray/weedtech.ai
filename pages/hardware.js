@@ -6,50 +6,44 @@ import Banner from '../components/banner'
 function Hardware() {
   return (
     <Layout title="Hardware" tab={1}>
-      <Banner />
-      <div className="content-section">
-        <div className="content-box">
-          <h2 className="heading-2">
-            Recommended Hardware
-          </h2>
-          <div className="sub-text centered">
-            This will be updated as needed
+      <h2 className="heading-2">
+        Recommended Hardware
+      </h2>
+      <div className="sub-text centered">
+        This will be updated as needed
+      </div>
+      <div style={{display: 'flex', margin: '50px 200px 0px 200px'}} className="_3colum w-row">
+        <div className="column w-col w-col-4">
+          <img src="/static/images/41BrqcTc81L._SL250_.jpg" alt="" className="hardware-img" />
+          <div className="text colum">
+            <a target="_blank" 
+              href="https://www.amazon.com/gp/product/B01MTWGMRR/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B01MTWGMRR&amp;linkCode=as2&amp;tag=weedtechai-20&amp;linkId=df8d4827b08ff7a1efcdb365d3c5a750">
+                Brother QL-810W Ultra-Fast Label Printer with Wireless Networking
+              </a>
+            </div>
+        </div>
+        <div className="w-col w-col-4">
+          <img src="/static/images/311EBlHY2IL._SL250_.jpg" alt="" className="hardware-img" />
+          <div className="text colum">
+            <a target="_blank" 
+              href="https://www.amazon.com/gp/product/B01D2OPJAQ/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B01D2OPJAQ&amp;linkCode=as2&amp;tag=weedtechai-20&amp;linkId=7c8c79a59e227c227604e6b21c4f2296">
+                Zebra Technologies ZD41H22-D01E00EZ Series ZD410 Direct Thermal Healthcare Desktop Printer, 
+                203 DPI, 2", US Power Cord, USB 2.0, USB Host, BTLE, Ethernet Module, EZPL
+            </a>
           </div>
-          <div style={{display: 'flex', margin: '50px 200px 0px 200px'}} className="_3colum w-row">
-            <div className="column w-col w-col-4">
-              <img src="/static/images/41BrqcTc81L._SL250_.jpg" alt="" className="hardware-img" />
-              <div className="text colum">
-                <a target="_blank" 
-                  href="https://www.amazon.com/gp/product/B01MTWGMRR/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B01MTWGMRR&amp;linkCode=as2&amp;tag=weedtechai-20&amp;linkId=df8d4827b08ff7a1efcdb365d3c5a750">
-                    Brother QL-810W Ultra-Fast Label Printer with Wireless Networking
-                  </a>
-                </div>
-            </div>
-            <div className="w-col w-col-4">
-              <img src="/static/images/311EBlHY2IL._SL250_.jpg" alt="" className="hardware-img" />
-              <div className="text colum">
-                <a target="_blank" 
-                  href="https://www.amazon.com/gp/product/B01D2OPJAQ/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B01D2OPJAQ&amp;linkCode=as2&amp;tag=weedtechai-20&amp;linkId=7c8c79a59e227c227604e6b21c4f2296">
-                    Zebra Technologies ZD41H22-D01E00EZ Series ZD410 Direct Thermal Healthcare Desktop Printer, 
-                    203 DPI, 2", US Power Cord, USB 2.0, USB Host, BTLE, Ethernet Module, EZPL
-                </a>
-              </div>
-            </div>
-            <div className="w-col w-col-4">
-              <img 
-                style={{paddingTop: '70px', paddingBottom: '70px'}} 
-                src="/static/images/Refresh.png" 
-                alt="" 
-                className="hardware-img icon"
-              />
-              <div className="text colum">
-                New Hardware will be added as we test it!
-              </div>
-            </div>
+        </div>
+        <div className="w-col w-col-4">
+          <img 
+            style={{paddingTop: '70px', paddingBottom: '70px'}} 
+            src="/static/images/Refresh.png" 
+            alt="" 
+            className="hardware-img icon"
+          />
+          <div className="text colum">
+            New Hardware will be added as we test it!
           </div>
         </div>
       </div>
-      <Features />
       <style jsx>{`
       .content-section {
         font-size: 18px;

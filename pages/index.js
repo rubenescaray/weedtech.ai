@@ -1,14 +1,10 @@
 import React from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
-import Nav from '../components/nav'
 import Layout from '../components/layout'
-import Features from '../components/features'
 
 function Home() {
 
   return (
-    <Layout title="Home" tab={0}>
+    <Layout noContent hideBanner title="Seed-to-sale" tab={0}>
       <div className="background-home">
         <div className="hero-text-home">
           <img
@@ -177,7 +173,6 @@ function Home() {
           </div>
         </div>
       </div>
-      <Features />
       <style jsx>{`
         .background-home {
           width: 100%;  

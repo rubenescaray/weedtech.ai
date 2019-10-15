@@ -1,4 +1,3 @@
-
 import { AUTHENTICATE, DEAUTHENTICATE, USER } from '../types';
 
 const initialState = {

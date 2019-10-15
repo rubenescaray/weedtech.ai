@@ -1,6 +1,7 @@
 import React from 'react'
+import Link from 'next/link'
 
-function Tool({ toolName, toolImage, toolButton }) {
+function Tool({ toolName, toolImage, toolButton, link }) {
   const st = "/static/images/";
   const images = [
     { id: 0, img: st + 'See.png' },
@@ -13,6 +14,7 @@ function Tool({ toolName, toolImage, toolButton }) {
     { id:8, img: st + 'Profile.png' },
   ];
   const image = images.find(image => image.id == toolImage);
+  const _link = !link ? '/dashboard' : `/${link}`;
 
   return (
     <div className="tool">
@@ -23,9 +25,11 @@ function Tool({ toolName, toolImage, toolButton }) {
         className="tool-image" 
         src={image.img}
       />
-      <div className="tool-button">
-        {toolButton == 'v' ? 'VIEW' : 'CREATE'}
-      </div>
+      <Link href={_link}>
+        <div className="tool-button">
+          {toolButton == 'v' ? 'VIEW' : 'CREATE'}
+        </div>
+      </Link>
       <style jsx>{`
        .tool {
           margin: 5px;
@@ -51,6 +55,7 @@ function Tool({ toolName, toolImage, toolButton }) {
           border: 1px rgb(71, 137, 120) solid;
           font-size: 12px;
           text-align: center;
+          cursor: pointer;
         }
       `}</style>
     </div>

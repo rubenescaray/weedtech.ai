@@ -12,6 +12,10 @@ class MyDocument extends Document {
         <Head>
           <title>WeedTech.ai</title>
           <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/react-table@latest/react-table.css"
+          />
         </Head>
         <body>
           <Main />
