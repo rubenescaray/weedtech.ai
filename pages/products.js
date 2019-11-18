@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import ReactLoading from "react-loading";
 import ReactTable from 'react-table'
 import QRCode from 'qrcode.react'
+import DeleteModal from '../components/modals/deleteModal'
+import TransferModel from '../components/modals/transferModal'
+import AddToBatchModal from '../components/modals/addToBatchModal'
 import Layout from '../components/layout'
 import Link from 'next/link'
 import Select from 'react-select'
@@ -11,19 +15,36 @@ import httpClient, { selectStyles, options, selectTheme } from '../config'
 function Products({ auth }) {
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState([{}])
+  const [batches, setBatches] = useState([{}])
+  const [deleteModal, setDelModal] = useState(false)
+  const [destroyModal, setDesModal] = useState(false)
+  const [transferModal, setTransferModal] = useState(false)
+  const [addToBatch, setAddToBatch] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState('')
+  const [selectedBatch, setSelectedBatch] = useState('')
 
   useEffect(() => {
     const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
     const fetchData = async () => {
       await httpClient.get(`myProducts/${user_token}`)
         .then(res => {
-          console.log(res)
           setProducts(res.data.success)
-          setLoading(false)
         })
         .catch(error => {
           console.log(error)
         })
+
+        await httpClient.get(`findBatchesDetails/${user_token}`)
+        .then(res => {
+
+          setBatches(formatBatches(res.data))
+          //setBatches(res.data)
+        })
+        .catch(error => {
+          console.log(error)
+        }) 
+
+        setLoading(false)
     }
     setTimeout(fetchData(), 2000)
   }, []);
@@ -57,6 +78,123 @@ function Products({ auth }) {
     return new Date(createdAt).toLocaleDateString("en-US");
   }
 
+  const formatBatches = (batches) => {
+    let formattedBatches = []
+
+    batches.map(batch => {
+      formattedBatches.push({
+        value: batch.batchID,
+        label: batch.batchName,
+      })
+    })
+
+    return formattedBatches
+  }
+
+  const onChangeSelect = (data) => {
+    setSelectedBatch(data.value)
+  }
+
+  const deleteProduct = (productId) => {
+    setSelectedProduct(productId)
+    toggleDelModal()
+  }
+
+  const destroyProduct = (productId) => {
+    setSelectedProduct(productId)
+    toggleDesModal()
+  }
+
+  const transferProduct = (productId) => {
+    setSelectedProduct(productId)
+    toggleTransModal()
+  }
+
+  const addProductToBatch = (productId) => {
+    setSelectedProduct(productId)
+    toggleAddModal()
+  }
+
+  const toggleTransModal = () => {
+    setTransferModal(!transferModal)
+  }
+
+  const toggleDelModal = () => {
+    setDelModal(!deleteModal)
+  }
+
+  const toggleDesModal = () => {
+    setDesModal(!destroyModal)
+  }
+
+  const toggleAddModal = () => {
+    setAddToBatch(!addToBatch)
+  }
+
+  const deleteCallback = () => {
+    const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
+    const newProducts = products.filter(product => product.productID != selectedProduct)
+
+    setProducts(newProducts)
+    httpClient.get(`deleteProduct/${user_token}/${selectedProduct}`)
+      .then(res => {
+        console.log(res)
+        toggleDelModal()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const destroyCallback = () => {
+    const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
+    const newProducts = products.filter(product => product.productID != selectedProduct)
+
+    setProducts(newProducts)
+    httpClient.get(`productDestroy/${user_token}/${selectedProduct}`)
+      .then(res => {
+        console.log(res)
+        toggleDesModal()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const transferCallback = (newOwner) => {
+    const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
+    console.log(user_token)
+    console.log(newOwner)
+    console.log(selectedProduct)
+
+    /* httpClient.get(`productDestroy/${user_token}/${selectedProduct}`)
+      .then(res => {
+        console.log(res)
+        toggleDesModal()
+      })
+      .catch(error => {
+        console.log(error)
+      }) */
+  }
+
+  const addToBatchCallback = () => {
+    const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
+
+    console.log(user_token)
+    console.log(selectedBatch)
+    console.log(selectedProduct)
+
+    httpClient.get(`addToBatch/${user_token}/${selectedBatch}/${selectedProduct}`)
+      .then(res => {
+        console.log(res)
+        toggleAddModal()
+      })
+      .catch(error => {
+        console.log(error)
+        toggleAddModal()
+      })
+  }
+
   const columns = [{
     Header: 'QR Code',
     accessor: 'productID',
@@ -87,31 +225,64 @@ function Products({ auth }) {
     Cell: props => <p>{createdTime(props.value)}</p>,
   }, {
     Header: 'Delete',
-    Cell: props => <p><a>Delete</a></p>,
+    accessor: 'productID',
+    Cell: props => 
+      <button 
+        onClick={() => deleteProduct(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Delete
+      </button>,
   }, {
     Header: 'Destroy',
-    Cell: props => <p><a>Destroy</a></p>,
+    accessor: 'productID',
+    Cell: props => 
+      <button 
+        onClick={() => destroyProduct(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Destroy
+      </button>,
   }, {
     Header: 'Transfer',
-    Cell: props => <p><a>Transfer</a></p>,
+    accessor: 'productID',
+    Cell: props => 
+      <button 
+        onClick={() => transferProduct(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Transfer
+      </button>,
   }, {
     Header: 'Add to batch',
-    Cell: props => <button>Add to batch</button>,
+    accessor: 'productID',
+    Cell: props => 
+      <button 
+        onClick={() => addProductToBatch(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Add
+      </button>,
   }]
 
   return (
     <Layout title={'My Products'}>
+      <DeleteModal show={deleteModal} typeOf='product' cancel={toggleDelModal} accept={deleteCallback} />
+      <DeleteModal show={destroyModal} typeOf='product' cancel={toggleDesModal} accept={destroyCallback} destroy={true} />
+      <AddToBatchModal show={addToBatch} cancel={toggleAddModal} accept={addToBatchCallback} 
+        selectedBatch={selectedBatch == '' ? false : true} />
+      <TransferModel show={transferModal} cancel={toggleTransModal} accept={transferCallback} />
       <Heading heading={'My Products'}/>
       <div className="products">
-        <h3 className="products-heading">Choose an active batch here</h3>
-        <div className="select-product">
+        <h2 className="heading-2">My Products</h2>
+        {!loading && <h3 className="products-heading">Choose an active batch here</h3>}
+        {!loading && <div className="select-product">
           <Select 
-            options={options} 
+            options={batches} 
             styles={selectStyles} 
             theme={selectTheme}
+            onChange={onChangeSelect}
           />
-        </div>
-        <h2 className="heading-2">My Products</h2>
+        </div>}
+        {loading ? <div className="loading-div">
+          <ReactLoading type={'spin'} color={'#478978'} />
+        </div> :
         <ReactTable
           style={{
             marginLeft: '-100px',
@@ -121,7 +292,7 @@ function Products({ auth }) {
           data={products}
           columns={columns}
           minRows={0}
-        />
+        />}
       </div>
       <style jsx>{`
         .products {

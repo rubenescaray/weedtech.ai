@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import QRCode from 'qrcode.react'
+import ReactLoading from "react-loading"
 import ReactTable from 'react-table'
 import Link from 'next/link'
 import Layout from '../components/layout'
@@ -12,11 +13,11 @@ function viewBatches({ auth }) {
   const [batches, setBatches] = useState([{}])
 
   useEffect(() => {
-    const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
+    const user_token = auth.token !== null ? auth.token : localStorage.getItem('token')
+
     const fetchData = async () => {
-      await httpClient.get(`findBatches/${user_token}`)
+      await httpClient.get(`findBatchesDetails/${user_token}`)
         .then(res => {
-          console.log(res)
           setBatches(res.data)
           setLoading(false)
         })
@@ -32,8 +33,10 @@ function viewBatches({ auth }) {
       return
     }
 
+    console.log(batchId)
+
     return <Link href="batchDetails/[bid]" as={`batchDetails/${batchId}`}>
-      <p className="table-link">{batchDetails}</p>
+      <p className="table-link">{batchId}</p>
     </Link>;
   }
 
@@ -55,18 +58,32 @@ function viewBatches({ auth }) {
     Cell: props => <p>{props.value}</p>,
   }, {
     Header: 'Create Manifest',
-    Cell: props => <p><a>Create Manifest</a></p>,
+    accessor: 'batchID',
+    Cell: props => 
+      <button 
+        onClick={() => console.log(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Create
+      </button>,
   },{
     Header: 'Delete',
-    Cell: props => <p><a>Delete</a></p>,
+    accessor: 'batchID',
+    Cell: props => 
+      <button 
+        onClick={() => console.log(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Delete
+      </button>,
   }]
 
   return(
-    <Layout>
+    <Layout title={'View Batches'}>
       <Heading heading="My Batches"/>
       <h2 className="heading-2">Current Batches</h2>
       {loading ? 
-        <p align="center">Loading...</p> 
+        <div className="loading-div">
+          <ReactLoading type={'spin'} color={'#478978'} />
+        </div>
         :
         <ReactTable
           loading={loading}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import ReactLoading from "react-loading"
 import ReactTable from 'react-table'
 import { useRouter } from 'next/router'
 import Layout from '../../../components/layout'
@@ -81,7 +82,9 @@ function MotherDetails({ auth }) {
       <Layout title="Mother Details" >
         <Heading whereTo="/mothers" heading={'My Mothers > Mother Details'} />
         <h2 className="heading-2">Mother Details</h2>
-        <p align="center">Loading...</p>
+        <div className="loading-div">
+          <ReactLoading type={'spin'} color={'#478978'} />
+        </div>
       </Layout>
     )
   }

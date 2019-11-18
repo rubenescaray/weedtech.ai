@@ -38,12 +38,13 @@ function LocationDetails(props) {
       <div className="panel-group">
         <div className="panel panel-default">
           <div className="panel-heading">Location Name</div>
-          <div className="panel-body">
+          <div className="panel-body">    
             <input 
               type="text" 
               id="locationName" 
               value={locationInfo} 
-              required 
+              required
+              className="text-field w-input" 
             />
           </div>
         </div>

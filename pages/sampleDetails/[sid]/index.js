@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import ReactTable from 'react-table'
+import ReactLoading from "react-loading"
 import { useRouter } from 'next/router'
 import Layout from '../../../components/layout'
 import Heading from '../../../components/heading'
@@ -38,7 +39,9 @@ function SampleDetails({ auth }) {
       <Layout title="Sample Details" >
         <Heading whereTo="/samples" heading={'My Samples > Sample Details'} />
         <h2 className="heading-2">Sample Details</h2>
-        <p align="center">Loading...</p>
+        <div className="loading-div">
+          <ReactLoading type={'spin'} color={'#478978'} />
+        </div>
       </Layout>
     )
   }

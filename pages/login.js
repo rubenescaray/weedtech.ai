@@ -12,9 +12,12 @@ function Login(props) {
   const [password, setPassword] = useState('');
 
   const signin = async () => {
+    console.log(email)
+    console.log(password)
     event.preventDefault();
     await httpClient.get(`/login/${email}/${password}`)
       .then(res => {
+        console.log(res)
         localStorage.setItem('token', res.data.token)
         props.dispatch(authenticate(res.data.token))
         Router.push('/dashboard')

@@ -25,7 +25,7 @@ function Home() {
           <a href="/signup" className="button w-button">SIGNUP</a>
         </div>
       </div>
-      <div style={{paddingBottom: '160px'}} className="content-section">
+      <div className="content-section">
         <div className="content-box">
           <h2 className="heading-2">Simple, Compliant and Affordable.</h2>
           <img
@@ -114,7 +114,7 @@ function Home() {
               </span>
             </p>
           </div>
-          <div className="_3colum w-row">
+          <div style={{display: 'block'}} className="_3colum w-row">
             <h3 className="heading-3">Testimonials</h3>
             <div className="testimonials">
               <div className="column w-col w-col-4">
@@ -146,13 +146,14 @@ function Home() {
         
         </div>
           <div className="_3colum w-row">
-            <div className="w-col w-col-4">
+            <div className="w-col w-col-4 no-display">
               <h3 className="heading-3"></h3>
               <div className="text colum"></div>
             </div>
             <div className="column w-col w-col-4">
               <h3 className="heading-3">WeedTech Community</h3>
-              <div className="text colum">Join our growing community of over 200 Okie growers! 
+              <div className="text colum no-padding">
+                Join our growing community of over 200 Okie growers! 
                 <br/><br/>
                 <a href="https://discord.gg/tRB6qn7">
                   Discord (Live Support)
@@ -165,7 +166,7 @@ function Home() {
                 </a>
               </div>
             </div>
-            <div className="w-col w-col-4">
+            <div className="w-col w-col-4 no-display">
               <h3 className="heading-3"></h3>
                 <div className="text colum">
                 </div>
@@ -250,6 +251,7 @@ function Home() {
         }
         .content-section {
           font-size: 18px;
+          padding-bottom: 100px;
         }
         .content-box {
           width: 70%;
@@ -305,8 +307,7 @@ function Home() {
           font-size: 20px;
         }
         .speech-list {
-          text-align: initial;
-          margin-left: 55px;
+          text-align: center;
         }
         .landing-list-item {
           margin-bottom: 5px;
@@ -357,6 +358,36 @@ function Home() {
         .testimonials {
           display: flex;
         } 
+
+        @media only screen and (max-width: 600px) {
+          .content-box {
+            width: 90vw;
+          }
+
+          .speech-list {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .landing-list-item {
+            text-align: initial;
+          }
+
+          .testimonials {
+            flex-direction: column;
+          }
+
+          .no-padding {
+            padding: 0;
+          }
+
+          .no-display {
+            display: none;
+          }
+          .content-section {
+            padding-bottom: 3em;
+          }
+        }
       `}</style>
     </Layout>
   )

@@ -1,29 +1,41 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 import { connect } from 'react-redux'
+import ReactLoading from "react-loading"
 import Layout from '../components/layout'
 import Heading from '../components/heading'
 import httpClient, { selectTheme, selectStyles, numberOptions } from '../config'
 
-function CreateBatch(props) {
+function CreateBatch({ auth }) {
   const [batchName, setBatchName] = useState('')
   const [batchOrigin, setBatchOrigin] = useState('')
+  const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false);
   const [fail, setFail] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
   const createNewBatch = async () => {
     setFail(false)
     setDone(false)
-    event.preventDefault()
+    setEmpty(false)
+
+    if (batchName == '' || batchOrigin == '') {
+      return setEmpty(true)
+    }
+
+    setLoading(true)
+
     await httpClient.get(`createBatch/${auth.token}/${batchName}/${batchOrigin}`)
       .then(res => {
         console.log(res)
         setDone(true)
         setBatchName('')
         setBatchOrigin('')
+        setLoading(false)
       }).catch(error => {
         console.log(error)
         setFail(true)
+        setLoading(false)
       })
   }
 
@@ -77,22 +89,26 @@ function CreateBatch(props) {
                   />
                 </div>
               </div>
-              <input
+              <div
                 onClick={(event) => {
                     event.preventDefault()
                     createNewBatch()
                   }}
-                type="submit" 
-                value="Create New Batches" 
-                data-wait="Please wait..." 
                 className="submit-button w-button"
-              />
+              >
+                {!loading ? <div>Create New Batches</div> : <div>
+                  <ReactLoading type={'spin'} color={'#fff'} height={45} width={45}/>
+                </div>}
+              </div>
             </form>
             <div style={{display: done ? 'block' : 'none'}} className="w-form-done">
               <div>Thank you! Your submission has been received!</div>
             </div>
             <div style={{display: fail ? 'block' : 'none'}} className="w-form-fail">
               <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+            <div style={{display: empty ? 'block' : 'none'}} className="w-form-fail">
+              <div>Please, fill the required fields!</div>
             </div>
           </div>
         </div>

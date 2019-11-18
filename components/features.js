@@ -1,9 +1,11 @@
+import React from 'react'
+
 function Features() {
   return (
-    <div style={{marginTop: '100px'}} className="features">
+    <div className="features">
       <div className="content-blox">
-        <div style={{display: 'flex'}} className="w-row">
-          <div className="w-col w-col-4">
+        <div style={{display: 'flex'}} className="features-list w-row">
+          <div className="feature w-col w-col-4">
             <img 
               src="/static/images/mobile-apps.png" 
               width="100" 
@@ -21,7 +23,7 @@ function Features() {
               SIGNUP
             </a>
           </div>
-          <div className="w-col w-col-4">
+          <div className="feature w-col w-col-4">
             <img 
               src="/static/images/no-fees.png" 
               width="100" 
@@ -39,7 +41,7 @@ function Features() {
               SIGNUP
             </a>
           </div>
-          <div className="w-col w-col-4">
+          <div className="feature w-col w-col-4">
             <img
               src="/static/images/target-price.png"
               width="100"
@@ -70,6 +72,7 @@ function Features() {
           background-position: 0px 0px, 50% 50%;
           background-size: auto, cover;
           background-repeat: repeat, no-repeat;
+          margin-top: 80px;
         }
         .content-blox {
           width: 70%;
@@ -186,6 +189,35 @@ function Features() {
         }
         #priced-signed {
           margin-top: 64px;
+        }
+
+        @media only screen and (max-width: 600px) {
+          .features {
+            height: auto;
+            margin-top: 0;
+          }
+
+          .content-blox {
+            width: 100vw;
+          }
+
+          .features-list {
+            flex-direction: column;
+          }
+
+          .feature {
+            width: 50vw;
+            margin: auto;
+            margin-bottom: 2em;
+          }
+
+          .button {
+            width: 50vw;
+            margin-left: -5px;
+          }
+          .text, .white, .column {
+            padding: 0;
+          }
         }
       `}</style>
     </div>

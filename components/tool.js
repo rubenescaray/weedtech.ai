@@ -17,19 +17,21 @@ function Tool({ toolName, toolImage, toolButton, link }) {
   const _link = !link ? '/dashboard' : `/${link}`;
 
   return (
-    <div className="tool">
-      <h3 className="tool-name">
-        {toolName}
-      </h3>
-      <img 
-        className="tool-image" 
-        src={image.img}
-      />
-      <Link href={_link}>
-        <div className="tool-button">
-          {toolButton == 'v' ? 'VIEW' : 'CREATE'}
-        </div>
-      </Link>
+    <div className="tool">      
+        <h3 className="tool-name">
+          {toolName}
+        </h3>
+        <Link href={_link}>
+          <img 
+            className="tool-image" 
+            src={image.img}
+          />
+        </Link>
+        <Link href={_link}>
+          <div className="tool-button">
+            {toolButton == 'v' ? 'VIEW' : 'CREATE'}
+          </div>
+        </Link>
       <style jsx>{`
        .tool {
           margin: 5px;
@@ -46,6 +48,7 @@ function Tool({ toolName, toolImage, toolButton, link }) {
         .tool-image {
           width: 100px;
           height: 100px;
+          cursor: pointer;
         }
         .tool-button {
           width: 70px;

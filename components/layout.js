@@ -25,20 +25,20 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       
       <style jsx global>{`
         .content-section {
-          font-size: 18px;
+          font-size: 1.5rem;
         }
         .content-blox {
           width: 70%;
           margin-right: auto;
           margin-bottom: 50px;
           margin-left: auto;
-          padding-top: 50px;
-          padding-bottom: 50px;
+          padding-top: 1.7em;
+          padding-bottom: 1.7em;
         }
         h2 {
-          font-size: 32px;
+          font-size: 2rem;
           line-height: 36px;
-          margin-top: 20px;
+          margin-top: 1em;
         }
         .heading-2 {
           font-family: Montserrat, sans-serif;
@@ -58,15 +58,15 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
           margin-bottom: 5px;
         }
         hr {
-          margin-top: 20px;
-          margin-bottom: 20px;
+          margin-top: 1em;
+          margin-bottom: 1em;
           border: 0;
           border-top: 1px solid #eee;
         }
         .plan-desc {
           text-align: left; 
           color: rgb(71, 137, 120);
-          font-size: 16px;
+          font-size: 1.2rem;
         }
         .w-button {
           display: inline-block;
@@ -208,6 +208,9 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
         font-size: 22px;
         font-weight: 500;
         text-transform: uppercase;
+        justify-content: center;
+        align-items: center;
+        display: flex;
       }
       .w-input, .w-select {
         display: block;
@@ -239,6 +242,9 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       }
       .ReactTable .rt-tbody .rt-td {
         text-align: center;
+      }
+      .ReactTable * {
+        font-size: 0.9rem;
       }
       .panel-group {
         margin-bottom: 20px;
@@ -302,6 +308,29 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       .table-link {
         color: #067df7;
         cursor: pointer;
+      }
+      .loading-div {
+        margin: 3em auto;
+        width: 10vh;
+      }
+      .inside-box-btn {
+        display: flex;
+        width: 70%;
+        font-size: 0.7rem;
+        margin: 1em auto;
+      }
+      .inside-modal-btn {
+        display: flex;
+        width: 30%;
+        font-size: 1rem;
+        margin: auto;
+        background-color: #478978c2;
+      }
+      .red-button {
+        background-color: #ff0000a3;
+      }
+      .css-yk16xz-control {
+        font-size: 1rem;
       }
       `}</style>
     </div>

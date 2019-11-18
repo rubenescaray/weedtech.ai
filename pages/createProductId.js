@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Layout from '../components/layout'
+import ReactLoading from "react-loading";
 import Select from 'react-select'
 import Heading from '../components/heading';
 import httpClient, { selectStyles, numberOptions, selectTheme } from '../config'
@@ -8,6 +9,7 @@ import httpClient, { selectStyles, numberOptions, selectTheme } from '../config'
 function CreateProductId({ auth }) {
   const [productName, setProductName] = useState('');
   const [productOrigin, setProductOrigin] = useState('');
+  const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [fail, setFail] = useState(false);
   const [empty, setEmpty] = useState(false);
@@ -21,15 +23,18 @@ function CreateProductId({ auth }) {
       return setEmpty(true)
     }
 
+    setLoading(true)
+
     await httpClient.get(`createNewProduct/${auth.token}/${productName}/${productOrigin}`)
       .then(res => {
-        console.log(res)
         setDone(true)
         setProductName('')
         setProductOrigin('')
+        setLoading(false)
       }).catch(error => {
         console.log(error)
         setFail(true)
+        setLoading(false)
       })
   }
 
@@ -85,16 +90,17 @@ function CreateProductId({ auth }) {
                 />
               </div>
             </div>
-            <input 
+            <div 
               onClick={(event) => {
                     event.preventDefault()
                     getProductID()
                   }}
-              type="submit" 
-              value="Get New IDs" 
-              data-wait="Please wait..." 
-              className="submit-button w-button" 
-            />
+              type="submit"
+              className="submit-button w-button">
+              {!loading ? <div>Get New Ids</div> : <div>
+                <ReactLoading type={'spin'} color={'#fff'} height={45} width={45}/>
+              </div>}
+            </div>
           </form>
           <div style={{display: done ? 'block' : 'none'}} className="w-form-done">
             <div>Thank you! Your submission has been received!</div>
