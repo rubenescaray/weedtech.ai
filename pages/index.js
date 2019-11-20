@@ -39,7 +39,7 @@ function Home() {
             sizes="(max-width: 479px) 90vw, 250px"
             alt="" 
             className="underline-bar" />
-          <div className="sub-text-sale">Seed-to-Sale starting at $50/month</div>
+          <div className="sub-text-sale">Seed-to-Sale starting at $79/month</div>
           <div className="text">
             <p>
               <span className="four-hundred">

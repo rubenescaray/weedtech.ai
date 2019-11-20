@@ -15,20 +15,6 @@ function ProductDetails({ auth }) {
   const router = useRouter()
   const { pid } = router.query;
 
-  const formatEvents = (events) => {
-    const formattedEvents = [];
-
-    events.map((event) => {
-      if (!(Array.isArray(event))) {
-        formattedEvents.push(event)
-      }
-
-      formattedEvents.push(event[0])
-    })
-
-    return formattedEvents.filter(el => el != null)
-  }
-
   useEffect(() => {
     const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
 
@@ -50,6 +36,20 @@ function ProductDetails({ auth }) {
     }
     setTimeout(fetchData(), 2000)
   }, []);
+
+  const formatEvents = (events) => {
+    const formattedEvents = [];
+
+    events.map((event) => {
+      if (!(Array.isArray(event))) {
+        formattedEvents.push(event)
+      }
+
+      formattedEvents.push(event[0])
+    })
+
+    return formattedEvents.filter(el => el != null)
+  }
 
   if (loading) {
     return (

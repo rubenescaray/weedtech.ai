@@ -16,7 +16,7 @@ function Dashboard() {
         <div className="tool-segment">
           <Tool toolName="My Product IDs" toolButton="v" toolImage="0" link="products" />
           <Tool toolName="Create Product ID" toolButton="c" toolImage="1" link="createProductId" />
-          <Tool toolName="Coming Soon" toolButton="v" toolImage="6" />
+          <Tool toolName="Manually Add Product" toolButton="c" toolImage="1" link="addProduct" />
         </div>
         <hr />
         <h2 className="product-title">User Tools</h2>

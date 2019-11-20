@@ -53,7 +53,7 @@ function Features() {
               Priced for YOUR Business
             </h3>
             <div className="text white column">
-              With plans starting at $50/month, we have a subscription that's right for you.
+              With plans starting at $79/month, we have a subscription that's right for you.
             </div>
             <a href="/signup" id="priced-signed" className="button w-button">
               SIGNUP

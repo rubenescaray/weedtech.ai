@@ -6,10 +6,10 @@ function Pricing() {
     <Layout title="Plans" tab={2}>
       <h2 className="heading-2">Plan Pricing</h2>
       <div className="subscriptions">
-        <div style={{marginRight:'50px'}} className="plan">
+        <div className="plan">
           <div>
             <h3 style={{textAlign: 'center', fontWeight: '400'}}>Basic Subscription</h3>
-            <h3 style={{textAlign: 'center'}}>$50 per month</h3>
+            <h3 style={{textAlign: 'center'}}>$79 per month</h3>
             <p className="plan-desc">
               Access to software and technical support. <br/>
               This includes (but is not limited to) the following improvements that are not yet operational:
@@ -29,10 +29,10 @@ function Pricing() {
             </a>
           </div>
         </div>
-        <div style={{marginRight:'50px'}} className="plan">
+        <div className="plan">
         <div>
             <h3 style={{textAlign: 'center', fontWeight: '400'}}>Yearly Subscription</h3>
-            <h3 style={{textAlign: 'center'}}>$540 per year</h3>
+            <h3 style={{textAlign: 'center'}}>$849 per year</h3>
             <p className="plan-desc">
             Includes everything included in the Basic Subscription for a lower overall cost. <br />
             Access to software and technical support. <br />
@@ -86,7 +86,8 @@ function Pricing() {
           display: flex;
         }
         .plan {
-          width: 33.3333%
+          width: 33.3333%;
+          margin-right: 2em;
         }
         h3 {
           font-size: 28px;
@@ -132,6 +133,25 @@ function Pricing() {
           font-size: 18px;
           font-weight: 400;
           text-align: center;
+        }
+
+        @media only screen and (max-width: 600px) {
+          .content-blox {
+            width: 80vw;
+          }
+
+          .subscriptions {
+            flex-direction: column;
+          }
+          .plan {
+            width: 80vw;
+            margin-right: 0 !important;
+            margin-bottom: 4em;
+          }
+
+          .plan-desc {
+            text-align: center;
+          }
         }
       `}</style>
     </Layout>

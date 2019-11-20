@@ -33,11 +33,21 @@ function viewBatches({ auth }) {
       return
     }
 
-    console.log(batchId)
-
     return <Link href="batchDetails/[bid]" as={`batchDetails/${batchId}`}>
       <p className="table-link">{batchId}</p>
     </Link>;
+  }
+
+  const downloadBatch = (data) => {
+    console.log(data)
+    
+    httpClient.get(`batchDownload/${data}`)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(error => {
+          console.log(error)
+        })
   }
 
   const columns = [{
@@ -73,6 +83,15 @@ function viewBatches({ auth }) {
         onClick={() => console.log(props.value)} 
         className="submit-button w-button inside-box-btn">
         Delete
+      </button>,
+  },{
+    Header: 'Download',
+    accessor: 'batchID',
+    Cell: props => 
+      <button 
+        onClick={() => downloadBatch(props.value)} 
+        className="submit-button w-button inside-box-btn">
+        Download
       </button>,
   }]
 

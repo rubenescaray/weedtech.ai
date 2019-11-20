@@ -12,8 +12,8 @@ function Hardware() {
       <div className="sub-text centered">
         This will be updated as needed
       </div>
-      <div style={{display: 'flex', margin: '50px 200px 0px 200px'}} className="_3colum w-row">
-        <div className="column w-col w-col-4">
+      <div style={{display: 'flex'}} className="_3colum w-row hardware-list">
+        <div className="column w-col w-col-4 indv-hardware">
           <img src="/static/images/41BrqcTc81L._SL250_.jpg" alt="" className="hardware-img" />
           <div className="text colum">
             <a target="_blank" 
@@ -22,7 +22,7 @@ function Hardware() {
               </a>
             </div>
         </div>
-        <div className="w-col w-col-4">
+        <div className="w-col w-col-4 indv-hardware">
           <img src="/static/images/311EBlHY2IL._SL250_.jpg" alt="" className="hardware-img" />
           <div className="text colum">
             <a target="_blank" 
@@ -32,7 +32,7 @@ function Hardware() {
             </a>
           </div>
         </div>
-        <div className="w-col w-col-4">
+        <div className="w-col w-col-4 indv-hardware">
           <img 
             style={{paddingTop: '70px', paddingBottom: '70px'}} 
             src="/static/images/Refresh.png" 
@@ -132,6 +132,23 @@ function Hardware() {
         margin-left: auto;
         padding-top: 0px;
         padding-bottom: 0px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .hardware-list {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .content-blox {
+          width: 100vw;
+        }
+
+        .indv-hardware {
+          width: 50vw;
+          margin: auto;
+          margin-bottom: 2em;
+        }
       }
       `}</style>
     </Layout>

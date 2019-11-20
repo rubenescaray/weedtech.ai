@@ -14,6 +14,7 @@ function batchActions({ auth }) {
   const [selectedLocation, setSelectedLocation] = useState('')
   const [options, setOptions] = useState({})
   const [batchID, setBatchId] = useState('')
+  const [location, setLocation] = useState('')
   const [loading, setLoading] = useState(false)
   const [locations, setLocations] = useState(false)
   const [batchName, setBatchName] = useState('')
@@ -49,39 +50,30 @@ function batchActions({ auth }) {
 
     return batches;
   }
+ 
 
   const onChangeSelect = (data) => {
     const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
     const batchId = data.value
 
-    setBatchId(batchId)
     setLoading(true)
+    setBatchId(batchId)
     setSelectedBatch(true)
 
     httpClient.get(`viewBatch/${user_token}/${data.value}`)
       .then(res => {
-        console.log(res)
+        const events = formatEvents(res.data[0].events)
+        const _location = findLocation(events)
+        const _batchState = findBatchState(events)
+        
+        console.log(_batchState)
+        setBatchState(_batchState)
         setBatchName(res.data[0].batchName)
-        setLoading(false)
-        loadLocations(user_token)
+        loadLocations(user_token, _location)
       })
       .catch(err => {
         setLoading(false)
         console.log(err)
-      })
-  }
-
-  const onLocationSelect = (data) => {
-    setSelectedLocation(data.value)
-  }
-
-  const loadLocations = (token) => {
-    httpClient.get(`myLocations/${token}`)
-      .then(res => {
-        setLocations(formatLocations(res.data.success))
-      })
-      .catch(error => {
-        console.log(error)
       })
   }
 
@@ -98,10 +90,93 @@ function batchActions({ auth }) {
     return locations
   }
 
+  const formatEvents = (events) => {
+    const formattedEvents = [];
+
+    events.map((event) => {
+
+      if (!(Array.isArray(event))) {
+        formattedEvents.push(event)
+      }
+
+      formattedEvents.push(event[0])
+    })
+
+    return formattedEvents.filter(el => el != undefined)
+  }
+
+  const findLocation = (events) => {
+    let lastLocation = ''
+    let biggerLocation = 0
+
+    events.map((event, i) => {
+      const { value } = event
+
+      if (event.value == null) {
+        return
+      }
+
+      if (value.includes('Location')) {
+        if (i > biggerLocation) {
+          lastLocation = value
+        }
+      }
+    })
+
+    return lastLocation.slice(20)
+  }
+
+  const findBatchState = (events) => {
+    let lastState = ''
+    let biggerState = 0
+
+    events.map((event, i) => {
+      const { value } = event
+
+      if (event.value == null) {
+        return
+      }
+
+      if (value.includes('State')) {
+        if (i > biggerState) {
+          lastState = value
+        }
+      }
+    })
+
+    return lastState.slice(16)
+  }
+
+  const onLocationSelect = (data) => {
+    setSelectedLocation(data.value)
+  }
+
+  const loadLocations = (token, location) => {
+    httpClient.get(`myLocations/${token}`)
+      .then(res => {
+        const _locations = res.data.success 
+        setLocations(formatLocations(_locations))
+        const _location = _locations.filter(l => l.locationID === location)
+        
+
+        if (_location.length < 1) {
+          setLocation('No location')
+        } else {
+          const locationName = _location[0].locationName;
+          setLocation(locationName)
+        }
+
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const changeBatchName = () => {
     const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
-    
-    httpClient.get(`batchChangeName/${user_token}/${batchID}/${batchName}`)
+    console.log(`batchChangeName/${user_token}/${batchID}/${batchName}`)
+    httpClient.get(`changeBatchName/${user_token}/${batchID}/${batchName}`)
       .then(res => {
         console.log(res)
       })
@@ -189,6 +264,7 @@ function batchActions({ auth }) {
               <div className="panel-heading">Choose Locations</div>
               <div className="panel-body">
                 {!locations && <ReactLoading type={'spin'} color={'#478978'} height={48} width={48} />}
+                {locations && <p className="current-info">Current: {location}</p>}
                 {locations && <Select 
                   options={locations} 
                   styles={selectStyles} 
@@ -233,6 +309,7 @@ function batchActions({ auth }) {
               <div className="panel-heading">Change Stage</div>
               <div className="panel-body">
                 <input
+                  value={batchState}
                   onChange={(event) => setBatchState(event.target.value)}
                   type="text" 
                   className="text-field w-input" 
@@ -369,6 +446,10 @@ function batchActions({ auth }) {
         font-size: 0.8em;
         margin-top: 10px;
         text-align: center;
+      }
+      .current-info {
+        margin: .5em auto;
+        font-size: 1rem;
       }
       `}</style>
     </Layout>
