@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
     case REMOVE_MESSAGE:
       return Object.assign({}, state, {
         show: false,
-        message: '',
       });
     default:
       return state;

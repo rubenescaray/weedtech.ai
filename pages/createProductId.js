@@ -5,37 +5,44 @@ import ReactLoading from "react-loading"
 import Select from 'react-select'
 import Heading from '../components/heading'
 import httpClient, { selectStyles, numberOptions, selectTheme } from '../config'
+import { shootMessage } from '../redux/actions/messageActions';
+import FormMessage from '../components/formMessage'
 
-function CreateProductId({ auth }) {
+function CreateProductId({ dispatch, auth }) {
   const [productName, setProductName] = useState('');
   const [productOrigin, setProductOrigin] = useState('');
   const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [empty, setEmpty] = useState(false);
+  const [number, setNumber] = useState(1);
 
-  const getProductID = async () => {
-    setFail(false)
-    setDone(false)
-    setEmpty(false)
+  const getProductID = (e) => {
+    e.preventDefault()
+    let repeat = number
 
     if (productName == '' || productOrigin == '') {
-      return setEmpty(true)
+      return shootMessage(dispatch, 'Please, fill the required fields', 'fail', 4000)
     }
 
     setLoading(true)
+    createProduct(repeat)
+  }
 
-    await httpClient.get(`createNewProduct/${auth.token}/${productName}/${productOrigin}`)
-      .then(res => {
-        setDone(true)
+  const createProduct = (repeat) => {
+    httpClient.get(`createNewProduct/${auth.token}/${productName}/${productOrigin}`)
+    .then(res => {
+      let newNumber = repeat - 1
+
+      if (repeat < 2) {
+        setLoading(false)
         setProductName('')
         setProductOrigin('')
-        setLoading(false)
-      }).catch(error => {
-        console.log(error)
-        setFail(true)
-        setLoading(false)
-      })
+        return shootMessage(dispatch, 'All new products created succesfully!', 'success', 4000)
+      }
+
+      createProduct(newNumber)
+    }).catch(error => {
+      console.log(error)
+      return shootMessage(dispatch, 'There was an error, try again', 'fail', 4000)
+    })
   }
 
   return (
@@ -52,6 +59,7 @@ function CreateProductId({ auth }) {
               <div style={{width: '55.5%', marginLeft: '-4px', paddingLeft: '0px'}} 
                 className="w-col w-col-8 w-col-small-small-stack">
                 <Select
+                  onChange={(data) => setNumber(data.value)}
                   options={numberOptions} 
                   styles={selectStyles} 
                   theme={selectTheme}
@@ -91,26 +99,15 @@ function CreateProductId({ auth }) {
               </div>
             </div>
             <div 
-              onClick={(event) => {
-                    event.preventDefault()
-                    getProductID()
-                  }}
+              onClick={getProductID}
               type="submit"
               className="submit-button w-button">
               {!loading ? <div>Get New Ids</div> : <div>
-                <ReactLoading type={'spin'} color={'#fff'} height={45} width={45}/>
+                <ReactLoading type={'spin'} color={'#fff'} height={25} width={25}/>
               </div>}
             </div>
           </form>
-          <div style={{display: done ? 'block' : 'none'}} className="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
-          </div>
-          <div style={{display: fail ? 'block' : 'none'}} className="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form.</div>
-          </div>
-          <div style={{display: empty ? 'block' : 'none'}} className="w-form-fail">
-            <div>Please, fill the required fields!</div>
-          </div>
+          <FormMessage />
         </div>
       </div>
       <style jsx>{`

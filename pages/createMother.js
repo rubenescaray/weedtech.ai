@@ -5,36 +5,43 @@ import Layout from '../components/layout'
 import Select from 'react-select'
 import Heading from '../components/heading';
 import httpClient, { selectStyles, numberOptions, selectTheme } from '../config'
+import { shootMessage } from '../redux/actions/messageActions';
+import FormMessage from '../components/formMessage'
 
-function CreateMother({ auth }) {
+function CreateMother({ auth, dispatch }) {
   const [motherName, setMotherName] = useState('');
   const [motherOrigin, setMotherOrigin] = useState('');
   const [loading, setLoading] = useState(false)
-  const [done, setDone] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [empty, setEmpty] = useState(false);
+  const [number, setNumber] = useState(1)
 
-  const createNewMother = async () => {
-    setFail(false)
-    setDone(false)
-    setEmpty(false)
+  const createNewMother = () => {
+    let repeat = number
 
     if (motherName == '' || motherOrigin == '') {
-      return setEmpty(true)
+      return shootMessage(dispatch, 'Please, fill all required fields', 'fail', 4000)
     }
 
     setLoading(true)
 
-    await httpClient.get(`createNewMother/${auth.token}/${motherOrigin}/${motherName}`)
+    addMother(repeat)
+  }
+
+  const addMother = (repeat) => {
+    httpClient.get(`createNewMother/${auth.token}/${motherOrigin}/${motherName}`)
       .then(res => {
-        console.log(res)
-        setDone(true)
-        setMotherName('')
-        setMotherOrigin('')
-        setLoading(false)
+        let newNumber = repeat - 1;
+        
+        if (repeat < 2) {
+          setMotherName('')
+          setMotherOrigin('')
+          setLoading(false)
+          return shootMessage(dispatch, 'Mother added succesfully!', 'success', 4000)
+        }
+        
+        addMother(newNumber)
       }).catch(error => {
         console.log(error)
-        setFail(true)
+        shootMessage(dispatch, 'There was an error, try again', 'fail', 4000)
         setLoading(false)
       })
   }
@@ -53,6 +60,7 @@ function CreateMother({ auth }) {
               <div style={{width: '55.5%', marginLeft: '-4px', paddingLeft: '0px'}} 
                 className="w-col w-col-8 w-col-small-small-stack">
                 <Select
+                  onChange={data => setNumber(data.value)}
                   options={numberOptions} 
                   styles={selectStyles} 
                   theme={selectTheme}
@@ -98,19 +106,11 @@ function CreateMother({ auth }) {
                   }}
               className="submit-button w-button">
               {!loading ? <div>Create Mother IDs</div> : <div>
-                <ReactLoading type={'spin'} color={'#fff'} height={45} width={45}/>
+                <ReactLoading type={'spin'} color={'#fff'} height={25} width={25}/>
               </div>}
             </div>
           </form>
-          <div style={{display: done ? 'block' : 'none'}} className="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
-          </div>
-          <div style={{display: fail ? 'block' : 'none'}} className="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form.</div>
-          </div>
-          <div style={{display: empty ? 'block' : 'none'}} className="w-form-fail">
-            <div>Please, fill the required fields!</div>
-          </div>
+          <FormMessage />
         </div>
       </div>
       <style jsx>{`

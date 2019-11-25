@@ -199,7 +199,7 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       .submit-button {
         display: block;
         width: 300px;
-        height: 45px;
+        height: fit-content;
         margin-top: 15px;
         margin-right: auto;
         margin-left: auto;
@@ -229,13 +229,27 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       .text-field {
         width: 350px;
       }
-      .form-message {
+      .message-visible {
         padding: 10px;
         text-align: center;
         width: 50%;
         margin: 2em auto 0 auto;
         border-radius: 5px;
         font-size: 1rem;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.5s linear;
+      }
+      .message-hidden {
+        padding: 10px;
+        text-align: center;
+        width: 50%;
+        margin: 2em auto 0 auto;
+        border-radius: 5px;
+        font-size: 1rem;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s 0.5s, opacity 0.5s linear;
       }
       .w-form-done {
         margin-top: 20px;

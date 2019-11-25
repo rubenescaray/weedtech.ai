@@ -5,36 +5,42 @@ import ReactLoading from "react-loading"
 import Layout from '../components/layout'
 import Heading from '../components/heading'
 import httpClient, { selectTheme, selectStyles, numberOptions } from '../config'
+import { shootMessage } from '../redux/actions/messageActions'
+import FormMessage from '../components/formMessage'
 
-function CreateBatch({ auth }) {
+function CreateBatch({ auth, dispatch }) {
   const [batchName, setBatchName] = useState('')
   const [batchOrigin, setBatchOrigin] = useState('')
   const [loading, setLoading] = useState(false)
-  const [done, setDone] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [empty, setEmpty] = useState(false);
+  const [number, setNumber] = useState(1);
 
-  const createNewBatch = async () => {
-    setFail(false)
-    setDone(false)
-    setEmpty(false)
+  const createNewBatch = () => {
+    let repeat = number
 
     if (batchName == '' || batchOrigin == '') {
-      return setEmpty(true)
+      return shootMessage(dispatch, 'Please, fill all required fields', 'fail', 4000)
     }
 
     setLoading(true)
+    addBatch(repeat)
+  }
 
-    await httpClient.get(`createBatch/${auth.token}/${batchName}/${batchOrigin}`)
+  const addBatch = repeat => {
+    httpClient.get(`createBatch/${auth.token}/${batchName}/${batchOrigin}`)
       .then(res => {
+        let newNumber = repeat - 1;
         console.log(res)
-        setDone(true)
-        setBatchName('')
-        setBatchOrigin('')
-        setLoading(false)
+        if (repeat < 2) {
+          setBatchName('')
+          setBatchOrigin('')
+          setLoading(false)
+          return shootMessage(dispatch, 'Location added succesfully!', 'success', 4000)
+        }
+        
+        addBatch(newNumber)
       }).catch(error => {
         console.log(error)
-        setFail(true)
+        shootMessage(dispatch, 'There was an error, try again', 'fail', 4000)
         setLoading(false)
       })
   }
@@ -54,6 +60,7 @@ function CreateBatch({ auth }) {
                 <div style={{width: '55.5%', marginBottom: '20px', marginLeft: '-4px', paddingLeft: '0px'}} 
                   className="w-col w-col-8 w-col-small-small-stack">
                   <Select
+                    onChange={data => setNumber(data.value)}
                     options={numberOptions} 
                     styles={selectStyles} 
                     theme={selectTheme}
@@ -97,19 +104,11 @@ function CreateBatch({ auth }) {
                 className="submit-button w-button"
               >
                 {!loading ? <div>Create New Batches</div> : <div>
-                  <ReactLoading type={'spin'} color={'#fff'} height={45} width={45}/>
+                  <ReactLoading type={'spin'} color={'#fff'} height={25} width={25}/>
                 </div>}
               </div>
             </form>
-            <div style={{display: done ? 'block' : 'none'}} className="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div style={{display: fail ? 'block' : 'none'}} className="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
-            <div style={{display: empty ? 'block' : 'none'}} className="w-form-fail">
-              <div>Please, fill the required fields!</div>
-            </div>
+            <FormMessage />
           </div>
         </div>
       </div>

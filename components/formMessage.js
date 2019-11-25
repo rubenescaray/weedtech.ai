@@ -18,12 +18,11 @@ const FormMessage = ({ style, message, show }) => {
         break
     }
 
-    console.log(bgColor);
     return bgColor
   }
 
   return (
-    <div style={{display: show ? 'block' : 'none', backgroundColor: backgroundColor(style)}} className="form-message">
+    <div className={show ? 'message-visible' : 'message-hidden'} style={{backgroundColor: backgroundColor(style)}}>
       <div>{message}</div>
       <style jsx>{`
       `}</style>

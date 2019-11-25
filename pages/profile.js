@@ -32,10 +32,6 @@ function Profile({ auth }) {
     setSubmit(true)
     const user_token = auth.token !== null ? auth.token : localStorage.getItem('token')
     let params = new URLSearchParams()
-    
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }
 
     params.append('userID', profile.userID)
     params.append('emailAddress', profile.emailAddress)
@@ -160,13 +156,16 @@ function Profile({ auth }) {
             </div>
           </div>
         </div>
-        <input
+        <div
           type="submit"
           onClick={submitProfile}
           value="Save" 
           data-wait="Please wait..." 
-          className="submit-button w-button"
-        />
+          className="submit-button w-button">
+          {!submit ? <div>Save</div> : <div>
+            <ReactLoading type={'spin'} color={'#fff'} height={25} width={25}/>
+          </div>}
+        </div>
       </div>
       <style jsx>{`
       .profile {
