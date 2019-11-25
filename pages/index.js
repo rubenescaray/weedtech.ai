@@ -251,7 +251,6 @@ function Home() {
         }
         .content-section {
           font-size: 18px;
-          padding-bottom: 100px;
         }
         .content-box {
           width: 70%;

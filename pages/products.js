@@ -25,6 +25,7 @@ function Products({ auth }) {
 
   useEffect(() => {
     const user_token = auth.token !== null ? auth.token : localStorage.getItem('token');
+    
     const fetchData = async () => {
       await httpClient.get(`myProducts/${user_token}`)
         .then(res => {
@@ -198,7 +199,7 @@ function Products({ auth }) {
   const columns = [{
     Header: 'QR Code',
     accessor: 'productID',
-    Cell: props => <QRCode value={props.value ? props.value : 'ABCDEFGHIJK'} size="50" />,
+    Cell: props => <QRCode value={props.value ? props.value : 'ABCDEFGHIJK'} size={window.innerWidth > 600 ? "50" : "25"} />,
   },{
     Header: 'Product ID',
     accessor: 'productID',
@@ -262,7 +263,7 @@ function Products({ auth }) {
   }]
 
   return (
-    <Layout title={'My Products'}>
+    <Layout noContent title={'My Products'}>
       <DeleteModal show={deleteModal} typeOf='product' cancel={toggleDelModal} accept={deleteCallback} />
       <DeleteModal show={destroyModal} typeOf='product' cancel={toggleDesModal} accept={destroyCallback} destroy={true} />
       <AddToBatchModal show={addToBatch} cancel={toggleAddModal} accept={addToBatchCallback} 
@@ -284,10 +285,7 @@ function Products({ auth }) {
           <ReactLoading type={'spin'} color={'#478978'} />
         </div> :
         <ReactTable
-          style={{
-            marginLeft: '-100px',
-            marginRight: '-100px'
-          }}
+          
           loading={loading}
           data={products}
           columns={columns}
@@ -308,6 +306,12 @@ function Products({ auth }) {
         .ReactTable {
           margin-right: -100px !important;
           margin-left: -100px !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+          .products-heading {
+            font-size: 1rem;
+          }
         }
       `}</style>
     </Layout>

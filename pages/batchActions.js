@@ -290,7 +290,7 @@ function batchActions({ auth }) {
                   value={batchName}
                   onChange={(event) => setBatchName(event.target.value)}
                   type="text"
-                  className="text-field w-input" 
+                  className="text-field w-input fit-content" 
                   maxlength="256" 
                   required
                 />
@@ -312,7 +312,7 @@ function batchActions({ auth }) {
                   value={batchState}
                   onChange={(event) => setBatchState(event.target.value)}
                   type="text" 
-                  className="text-field w-input" 
+                  className="text-field w-input fit-content" 
                   maxlength="256"
                 />
                 <input
@@ -332,7 +332,7 @@ function batchActions({ auth }) {
                 <input
                   onChange={(event) => setBatchNote(event.target.value)}
                   type="text" 
-                  className="text-field w-input" 
+                  className="text-field w-input fit-content" 
                   maxlength="256" 
                   required
                 />
@@ -365,7 +365,7 @@ function batchActions({ auth }) {
               <div className="panel-body">
                 <input
                   type="text" 
-                  className="text-field w-input" 
+                  className="text-field w-input fit-content" 
                   maxlength="256" 
                   required
                 />

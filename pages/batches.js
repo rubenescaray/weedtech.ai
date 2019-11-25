@@ -53,7 +53,7 @@ function viewBatches({ auth }) {
   const columns = [{
     Header: 'QR Code',
     accessor: '_id',
-    Cell: props => <QRCode value={props.value ? props.value : 'ABCDEFGHIJK'} size="50" />,
+    Cell: props => <QRCode value={props.value ? props.value : 'ABCDEFGHIJK'} size="25" />,
   },{
     Header: 'Batch ID',
     accessor: 'batchID',

@@ -126,8 +126,9 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       .form-box {
         width: 80%;
         margin: 50px auto;
-        padding: 50px 25px;
+        padding: 50px 25px 25px 35px;
         background-color: #f9f9f9;
+        border-radius: 10px;
       }
       .w-form {
         margin: 0 0 15px;
@@ -199,7 +200,7 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
         display: block;
         width: 300px;
         height: 45px;
-        margin-top: 35px;
+        margin-top: 15px;
         margin-right: auto;
         margin-left: auto;
         border-radius: 7.5px;
@@ -227,6 +228,14 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       }
       .text-field {
         width: 350px;
+      }
+      .form-message {
+        padding: 10px;
+        text-align: center;
+        width: 50%;
+        margin: 2em auto 0 auto;
+        border-radius: 5px;
+        font-size: 1rem;
       }
       .w-form-done {
         margin-top: 20px;
@@ -331,6 +340,24 @@ function Layout({ title, children, tab, hideBanner, hideFeatures, noContent }) {
       }
       .css-yk16xz-control {
         font-size: 1rem;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .content-blox {
+          width: 95vw;
+        }
+
+        .heading-2 {
+          font-size: 1rem;
+        }
+
+        .text-field {
+          width: 100%;
+        }
+
+        .fit-content {
+          width: fit-content;
+        }
       }
       `}</style>
     </div>

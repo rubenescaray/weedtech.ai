@@ -60,6 +60,12 @@ function Tool({ toolName, toolImage, toolButton, link }) {
           text-align: center;
           cursor: pointer;
         }
+
+        @media only screen and (max-width: 600px) {
+          .tool-name {
+            font-size: 1rem;
+          }
+        }
       `}</style>
     </div>
   );

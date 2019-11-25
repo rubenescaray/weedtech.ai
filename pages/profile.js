@@ -86,7 +86,7 @@ function Profile({ auth }) {
                   setProfile(newProfile)
                 }}
                 value={profile.firstName}
-                className="text-field w-input" 
+                className="text-field w-input fit-content" 
                 maxlength="256"
               />
             </div>
@@ -103,7 +103,7 @@ function Profile({ auth }) {
                   setProfile(newProfile)
                 }}
                 value={profile.lastName}
-                className="text-field w-input" 
+                className="text-field w-input fit-content" 
                 maxlength="256"
               />
             </div>
@@ -120,7 +120,7 @@ function Profile({ auth }) {
                   setProfile(newProfile)
                 }}
                 value={profile.emailAddress}
-                className="text-field w-input" 
+                className="text-field w-input fit-content" 
                 maxlength="256"
               />
             </div>
@@ -137,7 +137,7 @@ function Profile({ auth }) {
                   setProfile(newProfile)
                 }}
                 value={profile.password}
-                className="text-field w-input" 
+                className="text-field w-input fit-content" 
                 maxlength="256"
               />
             </div>
@@ -154,7 +154,7 @@ function Profile({ auth }) {
                   setProfile(newProfile)
                 }}
                 value={profile.ommaid}
-                className="text-field w-input" 
+                className="text-field w-input fit-content" 
                 maxlength="256"
               />
             </div>

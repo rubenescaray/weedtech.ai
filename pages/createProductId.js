@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Layout from '../components/layout'
-import ReactLoading from "react-loading";
+import ReactLoading from "react-loading"
 import Select from 'react-select'
-import Heading from '../components/heading';
+import Heading from '../components/heading'
 import httpClient, { selectStyles, numberOptions, selectTheme } from '../config'
 
 function CreateProductId({ auth }) {
@@ -46,7 +46,7 @@ function CreateProductId({ auth }) {
         <div className="w-form">
           <form  method="post" id="email-form" name="email-form" data-name="Email Form">
             <div className="field-col w-row">
-              <div style={{justifyContent: 'flex-start'}} className="column-2 w-col w-col-4 w-col-small-small-stack">
+              <div className="column-2 w-col w-col-4 w-col-small-small-stack">
                 <label for="name" className="field-label">Quantity of Products:</label>
               </div>
               <div style={{width: '55.5%', marginLeft: '-4px', paddingLeft: '0px'}} 
@@ -61,7 +61,7 @@ function CreateProductId({ auth }) {
             <br/>
             <div className="field-col w-row">
               <div className="column-2 w-col w-col-4">
-                <label for="name-2" className="field-label">Product Name (Strain if plant):</label>
+                <label for="name-2" className="field-label">Product Name:</label>
               </div>
               <div className="w-col w-col-8">
                 <input
@@ -77,7 +77,7 @@ function CreateProductId({ auth }) {
             <br/>
             <div className="field-col w-row">
               <div className="column-2 w-col w-col-4">
-                <label for="name-3" className="field-label">Product Origin (Seedling, Mother ID, Product ID, etc): </label>
+                <label for="name-3" className="field-label">Product Origin: </label>
               </div>
               <div className="w-col w-col-8">
                 <input

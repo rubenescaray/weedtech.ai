@@ -1,29 +1,46 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Router from 'next/router'
+import ReactLoading from "react-loading"
 import { useRouter } from 'next/router'
 import Layout from '../components/layout'
 import httpClient  from '../config'
 import { authenticate } from '../redux/actions/authActions'
+import { shootMessage } from '../redux/actions/messageActions';
+import FormMessage from '../components/formMessage'
 
-function Login(props) {
-  const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Login({ dispatch }) {
+  const router = useRouter()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState();
+  const [badLogin, setBadLogin] = useState(false)
 
   const signin = async () => {
-    console.log(email)
-    console.log(password)
-    event.preventDefault();
+    setLoading(true)
     await httpClient.get(`/login/${email}/${password}`)
       .then(res => {
-        console.log(res)
-        localStorage.setItem('token', res.data.token)
-        props.dispatch(authenticate(res.data.token))
-        Router.push('/dashboard')
+        const { data } = res
+
+        if (data.errResult == 'bad login') {
+          setLoading(false)
+          return shootMessage(dispatch, 'Please, check your credentials and try again', 'fail', 4000)
+        } else if (data.errResult == 'not subscribed') {
+          setLoading(false)
+          return shootMessage(dispatch, 'Please, activate your subscription before proceding', 'fail', 10000)
+        }
+        setLoading(false)
+        shootMessage(dispatch, 'Welcome back!', 'success', 1000)
+        localStorage.setItem('token', data.token)
+        dispatch(authenticate(data.token))
+        setTimeout(() => {
+          Router.push('/dashboard')
+        }, 1100)
       })
       .catch(error => {
         alert(error)
+        setLoading(false)
+        shootMessage(dispatch, 'There was an error, try again', 'fail', 3000)
       })
   }
 
@@ -66,16 +83,18 @@ function Login(props) {
                 />
               </div>
             </div>
-              <input
-                onClick={(event) => {
-                    event.preventDefault()
-                    signin()
-                  }}
-                type="submit" 
-                value="Login" 
-                data-wait="Please wait..." 
-                className="submit-button w-button" 
-              />
+            <div
+              onClick={(event) => {
+                  event.preventDefault()
+                  signin()
+                }}
+              type="submit" 
+              value="Login" 
+              data-wait="Please wait..." 
+              className="submit-button w-button">
+              {!loading ? <div>Login</div> : <ReactLoading type={'spin'} color={'#fff'} height={25} width={25} />}
+            </div>
+            <FormMessage />
           </form>
         </div>
       </div>
@@ -101,12 +120,6 @@ function Login(props) {
         color: #478978;
         font-weight: 600;
         text-align: center;
-      }
-      .form-box {
-        width: 80%;
-        margin: 50px auto;
-        padding: 50px 25px;
-        background-color: #f9f9f9;
       }
       .w-form {
         margin: 0 0 15px;
@@ -175,10 +188,10 @@ function Login(props) {
         border-radius: 0;
       }
       .submit-button {
-        display: block;
+        display: flex;
         width: 300px;
-        height: 45px;
-        margin-top: 35px;
+        height: fit-content;
+        margin-top: 15px;
         margin-right: auto;
         margin-left: auto;
         border-radius: 7.5px;
@@ -201,9 +214,6 @@ function Login(props) {
         background-color: #ffffff;
         border: 1px solid #cccccc;
       }
-      .text-field {
-        width: 350px;
-      }
       `}</style>
     </Layout>
   )
@@ -215,4 +225,4 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(Login);
+export default connect(mapState)(Login)

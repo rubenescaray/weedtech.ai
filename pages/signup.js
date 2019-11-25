@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import ReactLoading from "react-loading"
+import FormMessage from '../components/formMessage'
 import Layout from '../components/layout'
+import httpClient from '../config'
+import { shootMessage } from '../redux/actions/messageActions';
 
-function SignUp() {
+function SignUp({ dispatch }) {
+  const [loading, setLoading] = useState();
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -9,10 +15,58 @@ function SignUp() {
   const [password2, setPassword2] = useState('')
   const [ommaId, setOmmaId] = useState('')
 
+  const signupUser = (e) => {
+    setLoading(true)
+    var re = /\S+@\S+\.\S+/;
+    let params = new URLSearchParams()
+  
+    e.preventDefault()
+
+    if (firstName == '' || lastName == '' || email == ''  || password == '' || ommaId == '') {
+      setLoading(false)
+      return shootMessage(dispatch, 'Please, fill all the required fields', 'default', 4000)
+    }
+
+    if (password != password2) {
+      setLoading(false)
+      return shootMessage(dispatch, 'Please, confirm your password correctly', 'fail', 4000)
+    }
+
+    if (!re.test(String(email).toLowerCase())) {
+      setLoading(false)
+      return shootMessage(dispatch, 'Please, use a valid email', 'fail', 4000)
+    }
+
+    params.append('email', email)
+    params.append('firstName', firstName)
+    params.append('lastName', lastName)
+    params.append('ommaid', ommaId)
+    params.append('password', password)
+
+    httpClient.post(`signup`, params)
+      .then(res => {
+        const { data } = res
+        setLoading(false)
+        if (data.result == 'account exists') {
+          return shootMessage(dispatch, 'Email is already in use', 'fail', 4000)
+        } else if (data.result == 'success') {
+          setTimeout(() => {
+            shootMessage(dispatch, 'Please, contact us to continue the subscription process!', 'default', 5000)
+          }, 2100)
+          return shootMessage(dispatch, 'Account created succesfully!', 'success', 2000)
+        }
+        console.log(res)
+      })
+      .catch(e => {
+        setLoading(false)
+        console.log(e)
+      })
+  }
+
   return (
     <Layout title="Sign up" tab={3}>
         <h2 className="heading-2">Signup for our Seed-to-Sale Service</h2>
-        <div className="sub-text centered">It's just $50 per month</div>
+        <div className="sub-text centered">It's just $79 per month</div>
         <div className="form-box">
           <div className="w-form">
             <form id="email-form" name="email-form" data-name="Email Form">
@@ -23,14 +77,11 @@ function SignUp() {
                   </label>
                 </div>
                 <div className="w-col w-col-8 w-col-small-small-stack">
-                  <input 
+                  <input
+                    onChange={(event) => setFirstName(event.target.value)}
                     type="text" 
                     className="text-field w-input" 
-                    maxlength="256" 
-                    name="first_name" 
-                    data-name="first_name" 
-                    id="first_name" 
-                    required 
+                    maxlength="256"
                   />
                 </div>
               </div>
@@ -41,13 +92,11 @@ function SignUp() {
                   </label>
                 </div>
                 <div className="w-col w-col-8">
-                  <input 
+                  <input
+                    onChange={(event) => setLastName(event.target.value)}
                     type="text" 
                     className="text-field w-input" 
                     maxlength="256" 
-                    name="last_name" 
-                    data-name="last_name" 
-                    id="last_name" required
                   />
                 </div>
               </div>
@@ -58,14 +107,11 @@ function SignUp() {
                   </label>
                 </div>
                 <div className="w-col w-col-8">
-                  <input 
+                  <input
+                    onChange={(event) => setEmail(event.target.value)}
                     type="email" 
                     className="text-field w-input" 
-                    maxlength="256" 
-                    name="email" 
-                    data-name="email" 
-                    id="email" 
-                    required 
+                    maxlength="256"
                   />
                 </div>
               </div>
@@ -76,14 +122,12 @@ function SignUp() {
                   </label>
                 </div>
                 <div className="w-col w-col-8">
-                  <input 
+                  <input
+                    onChange={(event) => setPassword(event.target.value)}
                     type="password" 
                     className="text-field w-input" 
-                    maxlength="256" 
-                    name="password" 
-                    data-name="password" 
-                    id="password" 
-                    required
+                    maxlength="256"
+                    id="password"
                   />
                 </div>
               </div>
@@ -94,13 +138,12 @@ function SignUp() {
                   </label>
                 </div>
                 <div className="w-col w-col-8">
-                  <input 
+                  <input
+                    onChange={(event) => setPassword2(event.target.value)}
                     type="password" 
                     className="text-field w-input" 
-                    maxlength="256" 
-                    name="confirm_password" 
-                    data-name="confirm_password" 
-                    id="confirm_password" required
+                    maxlength="256"
+                    id="confirm_password"
                   />
                 </div>
               </div>
@@ -111,29 +154,22 @@ function SignUp() {
                   </label>
                 </div>
                 <div className="w-col w-col-8">
-                  <input 
+                  <input
+                    onChange={(event) => setOmmaId(event.target.value)}
                     type="text" 
                     className="text-field w-input" 
-                    maxlength="256" 
-                    name="omma_id" 
-                    data-name="omma_id" 
-                    id="omma_id" required
+                    maxlength="256"
+                    id="omma_id"
                   />
                 </div>
               </div>
-              <input 
-                type="submit" 
-                value="Submit" 
-                data-wait="Please wait..." 
+              <div
+                type="submit"
+                onClick={signupUser}
                 className="submit-button w-button"
-              />
+              >{!loading ? <div>Submit</div> : <ReactLoading type={'spin'} color={'#fff'} height={25} width={25} />}</div>
             </form>
-            <div className="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div className="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
+            <FormMessage />
           </div>
         </div>
         <style jsx>{`
@@ -244,10 +280,10 @@ function SignUp() {
         border-radius: 0;
       }
       .submit-button {
-        display: block;
+        display: flex;
         width: 300px;
-        height: 45px;
-        margin-top: 35px;
+        height: fit-content;
+        margin-top: 15px;
         margin-right: auto;
         margin-left: auto;
         border-radius: 7.5px;
@@ -270,9 +306,6 @@ function SignUp() {
         background-color: #ffffff;
         border: 1px solid #cccccc;
       }
-      .text-field {
-        width: 350px;
-      }
       .w-form-done {
         display: none;
         padding: 20px;
@@ -290,4 +323,10 @@ function SignUp() {
   )
 }
 
-export default SignUp;
+const mapState = state => {
+  return {
+    ...state
+  }
+}
+
+export default connect(mapState)(SignUp)
